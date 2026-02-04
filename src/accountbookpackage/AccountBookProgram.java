@@ -44,15 +44,15 @@ public class AccountBookProgram {
 		 return scan.nextInt();
 	}
 	private void insert() {
-		System.out.println("가계부에 입력할 날짜를 입력하세요.");
+		System.out.println("가계부에 입력할 날짜를 입력하세요. (ex. yyyy-mm-dd)");
 		indate=scan.next();
-		System.out.println("가계부에 입력할 타입을 입력하세요.");
+		System.out.println("가계부에 입력할 타입을 입력하세요. (ex. 수입 or 지출)");
 		type=scan.next();
-		System.out.println("가계부에 입력할 유형을 입력하세요.");
+		System.out.println("가계부에 입력할 유형을 입력하세요. (ex. 식비, 주거/통신비, 교통비, 기타... )");
 		category=scan.next();
 		System.out.println("가계부에 입력할 금액을 입력하세요.");
 		amount=scan.nextInt();
-		System.out.println("가계부에 입력할 비고를 입력해주세요.");
+		System.out.println("가계부에 입력할 비고를 입력해주세요. (메가커피)");
 		note=scan.next();
 		bm.insert(indate, type, category, amount, note);
 	}
@@ -71,32 +71,42 @@ public class AccountBookProgram {
 		int endAmount = 0;
 		while(true) {
 			System.out.println("1.날짜설정, 2.타입설정, 3.유형설정, 4.금액설정");
-			viewMode = scan.nextInt();
-			switch(viewMode) {
-			case 1: 
-				System.out.println("시작 날짜를 입력해주세요 (yyyy-mm-dd)");
-				startDate = scan.next();
-				System.out.println("시작 날짜를 입력해주세요 (yyyy-mm-dd)");
-				endDate = scan.next();
-				break;
-			case 2: 
-				System.out.println("수익, 지출중에 입력해주세요.(종합시 enter)");
-				type = scan.next();
-				break;
-			case 3: 
-				System.out.println("유형을 입력해주세요.(ex. 식비, 교통비, 주거/통신비...");
-				category = scan.next();
-				break;
-			case 4:
-				System.out.println("시작금액을 입력해주세요.");
-				startAmount = scan.nextInt();
-				System.out.println("끝금액을 입력해주세요.");
-				endAmount = scan.nextInt();
-				break;
-			default: break;
+			viewMode = 0;
+			try {
+			    viewMode = Integer.parseInt(scan.next()); // ← 핵심
+			} catch (NumberFormatException e) {
+			    System.out.println("메뉴 번호는 숫자로 입력하세요.");
+			    return;
+			}
+			switch (viewMode) {
+			    case 1:
+			        System.out.println("시작 날짜를 입력해주세요 (yyyy-mm-dd)");
+			        startDate = scan.next();
+			        System.out.println("끝 날짜를 입력해주세요 (yyyy-mm-dd)");
+			        endDate = scan.next();
+			        break;
+
+			    case 2:
+			        System.out.println("수입, 지출중에 입력해주세요.(종합시 enter / 미구현)");
+			        type = scan.next();
+			        break;
+
+			    case 3:
+			        System.out.println("유형을 입력해주세요.(ex. 식비, 교통비, 주거/통신비)");
+			        category = scan.next();
+			        break;
+
+			    case 4:
+			        System.out.println("시작금액을 입력해주세요.");
+			        startAmount = scan.nextInt();
+			        System.out.println("끝금액을 입력해주세요.");
+			        endAmount = scan.nextInt();
+			        break;
+
+			    default:
+			        System.out.println("잘못된 메뉴 번호입니다.");
 			}
 			bm.select(startDate, endDate, type, category, startAmount, endAmount);
-			
 		}
 	}
 	private void update() {
