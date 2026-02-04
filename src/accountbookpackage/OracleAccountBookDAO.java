@@ -33,14 +33,28 @@ public class OracleAccountBookDAO implements AccountBookDAO{
 		
 	}
 	@Override
-	public int insert(AccountBook accountBook) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insert(AccountBook ab) {
+		try {
+			String sql="insert into accountbook values(?,?,?,?,?,?)";
+			PreparedStatement ps=conn.prepareStatement(sql);
+			ps.setInt(1, ab.getId());
+			ps.setString(2, ab.getIndate());
+			ps.setString(3, ab.getType());
+			ps.setString(4, ab.getCategory());
+			ps.setInt(5, ab.getAmount());
+			ps.setString(6, ab.getNote());
+			int result=ps.executeUpdate(); //Statement객체와 차이점 sql을 여기서 실행하는 것이 아님
+			ps.close();
+			return result;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return 0;
+		}
 	}
 	@Override
 	public List<AccountBook> findAll() {
 		try {
-			String sql="select * from phonebook";
+			String sql="select * from accountbook";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			//결과를 이용하여 리스트를 반환할 예정이므로 코드 순서는 다음과 같다.
@@ -103,8 +117,8 @@ public class OracleAccountBookDAO implements AccountBookDAO{
 		List<AccountBook> list = new ArrayList<>();
 
 	    StringBuilder sql = new StringBuilder();
-	    sql.append("SELECT id, indate, type, category, amount, memo ");
-	    sql.append("FROM account_book ");
+	    sql.append("SELECT id, indate, type, category, amount, note ");
+	    sql.append("FROM accountbook ");
 	    sql.append("WHERE 1=1 ");
 
 	    List<Object> params = new ArrayList<>();
@@ -173,7 +187,7 @@ public class OracleAccountBookDAO implements AccountBookDAO{
 	@Override
 	public AccountBook findById(int id) {
 		try {
-			String sql="select * from phonebook where id=?";	
+			String sql="select * from accountbook where id=?";	
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
@@ -201,19 +215,21 @@ public class OracleAccountBookDAO implements AccountBookDAO{
 	@Override
 	public int count() {
 		try {
-			String sql="select max(id) as max from phonebook";	
+			String sql="select max(id) as max from accountbook";	
 			PreparedStatement ps = conn.prepareStatement(sql);
+			
 			ResultSet rs = ps.executeQuery();
+			System.out.println(rs);
 			if(rs.next()) {
 				int cnt = rs.getInt("cnt");
-				
+				System.out.println("fff");
 				return cnt;
 			}
 			rs.close();
 			ps.close();
 			return -1;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			return -1;
 		}

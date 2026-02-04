@@ -22,6 +22,7 @@ public class AccountBookManager {
 		int id=dao.count()+1;
 		
 		dao.insert(new AccountBook(id, indate, type, category, amount, note));
+		System.out.println("넣어짐?");
 	}
 	//전체보기
 	public void select() {
