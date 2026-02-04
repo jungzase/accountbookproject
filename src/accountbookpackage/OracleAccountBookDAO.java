@@ -221,7 +221,7 @@ public class OracleAccountBookDAO implements AccountBookDAO{
 			ResultSet rs = ps.executeQuery();
 			System.out.println(rs);
 			if(rs.next()) {
-				int cnt = rs.getInt("cnt");
+				int cnt = rs.getInt("max");
 				System.out.println("fff");
 				return cnt;
 			}
