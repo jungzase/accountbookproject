@@ -10,19 +10,15 @@ import java.util.List;
 
 
 
-public class OracleAccountBookDAO implements AccountBookDAO{
+public class H2AccountBookDAO2 implements AccountBookDAO{
 	Connection conn;
-	public OracleAccountBookDAO() {
+	public H2AccountBookDAO2() {
 		try {
-//			Class.forName("oracle.jdcb.driver.OracleDriver");
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-//			String url="jdbc:oracle:thin:@172.16.15.78:1521:xe";
-//			conn=DriverManager.getConnection("jdbc:oracle:thin:@172.16.15.78:1512:xe", "system", "1234");
-			conn=DriverManager.getConnection("jdbc:oracle:thin:@172.16.15.78:1521:xe", "system", "1234");
+			Class.forName("org.h2.Driver");
+			conn=DriverManager.getConnection("jdbc:h2:tcp://localhost/~/test", "sa", "");
 			if(conn ==null) {
 				System.out.println("DB연결을 다시 확인하세요.");
 				System.out.println("프로그램을 종료합니다");
-				
 			}
 			System.out.println("DB연결 성공");
 			} catch (Exception e) {
@@ -156,16 +152,15 @@ public class OracleAccountBookDAO implements AccountBookDAO{
 	    }
 
 	    sql.append("ORDER BY indate DESC, id DESC");
-	    
+
 	    try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
 	        for (int i = 0; i < params.size(); i++) {
 	            ps.setObject(i + 1, params.get(i));
 	        }
-	        
+
 	        try (ResultSet rs = ps.executeQuery()) {
 	            while (rs.next()) {
-	            	System.out.println("dfdf");
 	            	AccountBook ab = new AccountBook();
 	                ab.setId(rs.getInt("id"));
 	                ab.setIndate(rs.getString("indate"));
@@ -181,7 +176,7 @@ public class OracleAccountBookDAO implements AccountBookDAO{
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-	    System.out.println(list);
+
 	    return list;
 	}
 
