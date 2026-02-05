@@ -1,5 +1,6 @@
 package accountbookpackage;
 
+import java.util.List;
 
 public class AccountBookManager {
 	AccountBookDAO dao;
@@ -22,7 +23,7 @@ public class AccountBookManager {
 		int id=dao.count()+1;
 		
 		dao.insert(new AccountBook(id, indate, type, category, amount, note));
-		System.out.println("넣어짐?");
+		
 	}
 	//전체보기
 	public void select() {
@@ -31,7 +32,10 @@ public class AccountBookManager {
 		}
 	}
 	public void select(String startDate, String endDate, String type, String category, int startAmount, int endAmount) {
-		dao.selectByOption(startDate, endDate, type, category, startAmount, endAmount);
+		List<AccountBook> list = dao.selectByOption(startDate, endDate, type, category, startAmount, endAmount);
+		for(AccountBook ab : list) {
+		    System.out.println(ab);
+		}
 	}
 	
 	// 잔액보기
@@ -47,7 +51,7 @@ public class AccountBookManager {
 				total_expenditure += ab.getAmount();
 			}
 		}
-		System.out.println("총 수입: " + total_income + "총 지출: " + total_expenditure + "잔액: " + (total_income-total_expenditure));
+		System.out.println("총 수입: " + total_income + ", 총 지출: " + total_expenditure + ", 잔액: " + (total_income-total_expenditure));
 	}
 
 	public void selectById(int id) {

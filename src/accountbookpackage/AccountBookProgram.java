@@ -58,10 +58,20 @@ public class AccountBookProgram {
 	}
 	private void views() {
 		bm.select();
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	private void viewsBalance() {
 		bm.selectBalance();
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	private void view() {
 		int viewMode = 0;
@@ -70,10 +80,10 @@ public class AccountBookProgram {
 		int startAmount = 0;
 		int endAmount = 0;
 		while(true) {
-			System.out.println("1.날짜설정, 2.타입설정, 3.유형설정, 4.금액설정");
+			System.out.println("1.날짜설정, 2.타입설정, 3.유형설정, 4.금액설정, 0. 찾기종료");
 			viewMode = 0;
 			try {
-			    viewMode = Integer.parseInt(scan.next()); // ← 핵심
+			    viewMode = Integer.parseInt(scan.next()); 
 			} catch (NumberFormatException e) {
 			    System.out.println("메뉴 번호는 숫자로 입력하세요.");
 			    return;
@@ -102,11 +112,14 @@ public class AccountBookProgram {
 			        System.out.println("끝금액을 입력해주세요.");
 			        endAmount = scan.nextInt();
 			        break;
+			    case 0: return; 
 
 			    default:
 			        System.out.println("잘못된 메뉴 번호입니다.");
 			}
+			
 			bm.select(startDate, endDate, type, category, startAmount, endAmount);
+			
 		}
 	}
 	private void update() {
